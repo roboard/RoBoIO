@@ -5,7 +5,7 @@ RoBoIO is an I/O library for the "RoBoard" robot controller of DMP Electronic
 Inc. It can be compiled on DOS, Linux, Windows CE, and Windows XP. Here is only 
 the newest code base of RoBoIO. For complete packages, please download from 
 
-		<http://www.roboard.com/download_ml.htm>
+		http://www.roboard.com/download_ml.htm
 
 ---------------------------------------
 
@@ -19,7 +19,7 @@ SD Card that serves as a Hard Drive.
 RoBoard has been employed in various Robotics projects. You may see interesting 
 application videos on RoBoard website:
 
-		<http://www.roboard.com/video01.htm>
+		http://www.roboard.com/video01.htm
 
 ---------------------------------------
 
