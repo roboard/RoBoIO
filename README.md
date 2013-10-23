@@ -36,6 +36,6 @@ Locator (AVL). All of them are based on x86 SoC embedded technologies.
 Believing that Robotics is an important topic in the future industry, DMP is 
 being involved in the development of advanced robot technology. Especially, 
 several open-source projects related to Robotics are developed or working in 
-progress, including humanoid and hexapod robots, the RoBoard robot controller, 
-and the 86Duino-One open-hardware platform.
+progress, including humanoid and hexapod robots, integrated controllers for 
+LinuxCNC, the RoBoard robot controller, and the 86Duino open-hardware platform.
 
