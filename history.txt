@@ -1,0 +1,328 @@
+
+RoBoIO v1.9 (2013/3/12)
+=========================
+
+  + the license of the RoBoIO library is now defined as the MIT license: 
+
+        http://www.opensource.org/licenses/mit-license.php
+
+  + [by AAA] add rcservo_InitP() and rcservo_PinMode() to simplify the 
+    initialization of the RC Servo lib. See the section of RC Servo lib in 
+    RoBoIO introduction slides for details.
+    
+  + [by AAA] add rcservo_PlayActionS() to perform sine interpolation (the usage 
+    of the function is the same as rcservo_PlayAction()).
+
+  + [by AAA] add roboio_Delay() and roboio_DelayUs() for time delay in 
+    millisecond and microsecond, respectively. Add roboio_GetTick() to get the 
+    current time ticks (unit: 1 millisecond) for counting time.
+
+  + [by AAA] rewrite the [RB_BC_DOS] & [RB_MSVC_WINxx] part of timer_nowtime() 
+    to allow a timer with 1ms precision in DOS Borland C++ 3.x~4.x & MSVC.
+    
+  + [by AAA] fix a bug of reporting wrong error messages in com_Init().
+
+  + [by AAA] modify com_Close() to flush both write- & read-FIFO before closing 
+    COM ports.
+
+  + [by AAA] add the support of Towerpro SG90/SG5010 and Scanner STL-9894CTG 
+    servos to RC Servo lib.
+
+
+RoBoIO v1.81 (2011/7/19)
+==========================
+
+  + [by AAA & acen & Damien] in COM lib, disable the ISTRIP & PARMRK options 
+    when enabling parity-checking in Linux; this fixes a bug that occurs when 
+    using the half-duplex mode of COM lib with ODD/EVEN parity under Linux.
+    
+  + [by AAA] modify the Linux part of com_Send() & com_Receive() to handle 
+    EINTR & EAGAIN errors.
+
+  + [by AAA] modify com_ServoTRX() to report self-feedback errors only after 
+    reading all self-feedback bytes.
+
+  + [by AAA] add roboio_LibVer() to report the version of RoBoIO; e.g., for 
+    ver 1.81, roboio_LibVer() will return 0x0181 and for the future ver 1.9, 
+    roboio_LibVer() will return 0x0190.
+
+
+RoBoIO v1.8 (2011/6/6)
+========================
+
+  + [by AAA & Josh] add software-simulated I2C functions into I2C lib. 
+    The major feature of software-simulated I2C is that it allows to access 
+    I2C sensors of LEGO NXT (such as LEGO NXT Ultrasonic Sensor), which 
+    require an non-standard I2C protocol for communication.
+
+    The software-simulated I2C functions assumes that your I2C slave devices 
+    accept 3.3V input and there is only one master on I2C bus. For detailed 
+    usages, please refer to RoBoIO introduction slides.
+    
+  + [by AAA & acen] implement the first complete COM lib for accessing 
+    RoBoard's every native COM port (RB-110's FTDI serial ports aren't in 
+    consideration). The issue for full-duplex & half-duplex (e.g., older 
+    version of RB-100's COM4) is dealt with in COM lib automatically.
+    
+    Although RoBoard's native COM can be treated as standard serial ports in 
+    various OS, we add the COM lib into RoBoIO so that one can write cross- 
+    platform AI-servo control programs (e.g., access Dynamixel AX-12) more 
+    easily. The principle is to provide only necessary API and make them as 
+    simple as possible; if you need a serial-port lib with comprehensive 
+    functions, you should select other popular libs in the PC platform.
+    
+    Currently, the new COM lib only supports WinXP/WinCE/Linux; the DOS 
+    version (for DJGPP/Watcom C++/Borland C++ 3.0) still remains for future 
+    implementation. For detailed usages of the new COM lib, please refer to 
+    RoBoIO introduction slides.
+    
+  + [by AAA] modify I2C lib's functions that use the internal variables 
+    "I2C_count" & "I2C_curAddr" to allow calling i2c0master_xxxxN() & 
+    i2c1master_xxxxN() at the same time.
+
+  + [by AAA] add some new servo models to rcservo_SetServo().
+
+  + [by AAA] modify rcservo_PlayActionMix() to avoid underflow or overflow of 
+    the fixed width.
+
+  + [by AAA] add CPU & DRAM clock detection in io_Init(); add io_GetDRAMCLK() &
+    io_GetCPUCLK() functions. Modify delay_us() in common.cpp to adopt 
+    io_GetCPUCLK() for delay-time computation, and modify spi_Init2() to 
+    adopt io_GetDRAMCLK() for SPI clock computation.
+
+  + [by AAA] update every lib to support RoBoard RB-100RD.
+
+
+RoBoIO v1.7 (2011/3/22)
+=========================
+
+  + [by AAA] update roboio_SetRBVer(), A/D lib, I2C lib, and PWM lib to support 
+    RoBoard RB-050.
+
+  + [by AAA] add i2c_SetResetPin() & i2c_ClearResetPin() to I2C lib for 
+    controlling the ~Reset pin on the I2C connector of RB-110/RB-050.
+
+    Add also i2c_Send(), i2c_Receive(), i2c_SensorRead, i2c_SensorReadEX() 
+    to simplify the usage of I2C lib; see RoBoIO introduction slides for how to 
+    use these functions.
+
+  + [by AAA] add COM lib with com_EnableTurboMode() and com_DisableTurboMode() 
+    to enable/disable the boosting mode of RB-110/RB-050's COM1 ~ COM4; see 
+    RoBoIO introduction slides for how to use these functions.
+
+  + [by AAA] add rcservo_SendPWM(), rcservo_SendCPWM(), rcservo_StopPWM(), 
+    rcservo_CheckPWM() for the PWM mode of RC Servo lib. 
+
+    Add some new servo models to rcservo_SetServo().
+    
+    Add rcservo_MoveOne() and rcservo_GetAction() for the Action Playing mode 
+    of RC Servo lib; see RoBoIO introduction slides for how to use these 
+    functions.
+    
+    Add rcservo_Init() to be an alias of the old rcservo_Initialize(); the 
+    difference is that rcservo_Init() selects RCSERVO_SERVO_DEFAULT_NOFB as 
+    default servo parameters.
+
+    Rename the input parameters of rcservo_Init() to RCSERVO_USEPINS1, 
+    RCSERVO_USEPINS2, ... to match the PWM pin names mentioned in "RoBoard 
+    Hardware Introduction Slides"; add constants RCSERVO_PINS1, RCSERVO_PINS2, 
+    ... to indicate the PWM pin in each single-channel function of RC Servo 
+    lib.
+
+    Add rcservo_SendCMD() in RC Servo lib's Capture Mode to send command pulses 
+    (such as power-off pulse) to change behavior of a servo that supports such 
+    pulses (e.g. KONDO KRS-788).
+
+    Add rcservo_CapOne(), rcservo_CapAll() to simplify the Capture-Mode API 
+    usage of RC Servo lib.
+
+  + [by AAA] some functions are renamed or simplified so that they are more 
+    user-friendly:
+  
+    Rename GPIO functions rcservo_Outp(), rcservo_Inp() of RC Servo lib as 
+    rcservo_OutPin(), rcservo_InPin().
+    
+    Rename spi_Initialize(), spi_InitializeSW(), adc_Initialize(), 
+    adc_InitializeMCH() as spi_Init(), spi_InitSW(), adc_Init(), adc_InitMCH().
+
+    Add i2c_Init() to simplify the usage of i2c_Initialize() and 
+    i2c0_SetSpeed().
+
+    Add pwm_Init() to simplify the usage of pwm_Initialize().
+
+    Rename old internal functions pwm_Initialize(), i2c_Initialize2() as 
+    pwm_Init2(), i2c_Init2().
+
+    Add internal function spi_Init2() to allow setting base address of SPI H/W 
+    module.
+
+    The compatibility issue has been considered, and thus old user codes for 
+    RoBoIO 1.61 can still be compiled with the new version of RoBoIO.
+
+  + [by AAA] update io_CpuID() to recognize Vortex86DX ver. C (PBA/PBB).
+
+  + [by AAA] remove initial GPIO-output operations in i2c_Init2() to avoid 
+    unexpected I2C device behaviors.
+    
+  + [by AAA] redefine error codes of AD79x8 lib as 5xx.
+
+  + [by AAA] add roboio_CheckRBVer() for internal use. io_Init() now calls this 
+    function to check the correct version of RoBoard.
+    
+  + [by AAA] fix a bug in rcservo.cpp & pwm.cpp that can cause wrong left-shift 
+    operations when pwm_NumCh() >= 32.
+
+  + [by AAA] rewrite rcservo_PlayAction() and rcservo_PlayActionMix() to avoid 
+    possible bugs that can be caused when timer overflow occurs.
+    
+  + [by AAA] add io_outpcixx() and io_inpcixx() to I/O lib for accessing PCI 
+    configuration space; note that currently for WinXP, only the version 
+    compiled with the PciDebug or PhyMem library can provide thread-safe 
+    PCI access.
+
+  + [by AAA] add DOS Watcom C/C++ support.
+
+
+RoBoIO v1.61 (2010/8/25)
+==========================
+
+  + [by AAA] fix a bug in io_CpuID() which makes RoBoIO not work on RB-110 with 
+    STANDARD IDE enabled.
+
+  + [by AAA] All usable functions of the A/D lib are renamed as adc_xxxx...; 
+    see the new S/W introduction slide for reference.
+
+    The compatibility issue has been considered, and thus old user codes for 
+    RoBoIO 1.6 can still be compiled with the new version of RoBoIO.
+
+  + [by AAA] add pwm_NumCh() to report available PWM channels in different 
+    version of RoBoards.
+
+
+RoBoIO v1.6 (2010/5/6)
+========================
+                                                                                
+  + [by acen] Now RoBoIO supports both RoBoard RB-100 & RoBoard RB-110. Before 
+    using any specific lib in RoBoIO, one must call roboio_SetRBVer() to set 
+    the version of RoBoard so that the hardware features of different version 
+    of RoBoards can be recognized correctly. (If roboio_SetRBVer() isn't 
+    called, the default version will be RB-100.) See the following code for 
+    an example.
+    
+    - usage example:
+
+      /************************************************************************/
+
+          #include <stdio.h>
+          #include <roboard.h>
+      
+          int main(void) {
+              int *val;
+
+              roboio_SetRBVer(RB_110);  // set version of RoBoard = RB-110
+              
+              if (spi_Initialize(SPICLK_21400KHZ) == true)
+              {
+                  ......
+                  ......
+                  ......
+
+      /************************************************************************/
+
+  + [by acen] Add software-simulated SPI functions in SPI lib. It can generate 
+    low-speed SPI clocks to communicate with low-speed SPI devices. It also 
+    supports all of SPI clock modes (see 
+
+        http://en.wikipedia.org/wiki/Serial_Peripheral_Interface_Bus
+    
+    for the information about SPI clock modes) and full-duplex data 
+    transmission. To use the software-simulated SPI, one just calls 
+    spi_InitializeSW() to initialize the SPI lib instead of spi_Initialize(); 
+    then you can apply the old half-duplex spi_Read()/spi_Write() functions or 
+    the new full-duplex spi_Exchange() function to access your SPI devices.
+
+    - When calling spi_InitializeSW(), you use the following constant values 
+      to determine the SPI clock mode:
+
+          SPIMODE_CPOL0, SPIMODE_CPOL1
+          SPIMODE_CPHA0, SPIMODE_CPHA1
+
+      For example, if you want to select SPI clock mode <CPOL = 0, CPHA = 1>, 
+      just pass SPIMODE_CPOL0 + SPIMODE_CPHA1 as the first argument of 
+      spi_InitializeSW(). (Remarks: the SPI clock mode for the RoBoard's ADC 
+      (AD7918) is <CPOL = 0, CPHA = 0>; if you want to apply software-simulated 
+      SPI to access the ADC, please select the correct clock mode.)
+
+    - spi_InitializeSW() allows a delay parameter (as its second argument) for 
+      controlling the clock speed of the software-simulated SPI. The 
+      approximate relation between the delay parameter and the clock speed is 
+      listed as follows for reference:
+
+       ----------------------------
+¡@¡@¡@ |   Delay  |     Clock     |
+       |----------+---------------|
+       |    0     |    167 kHz    |
+       |----------+---------------|
+       |    2     |    100 kHz    |
+       |----------+---------------|
+       |    4     |     71 kHz    |
+       |----------+---------------|
+       |    6     |     56 kHz    |
+       |----------+---------------|
+       |    8     |     45 kHz    |
+       |----------+---------------|
+       |   10     |     38 kHz    |
+       |--------------------------|
+
+    - usage example :
+    
+      /************************************************************************/
+
+          #include <stdio.h>
+          #include <roboard.h>
+      
+          int main(void) {
+
+              roboio_SetRBVer(RB_110);  // set version of RoBoard = RB-110
+
+              // use software-simulated SPI with clock mode <CPOL 0, CPHA 0> 
+              // and delay parameter = 0
+              //
+              if(spi_InitializeSW(SPIMODE_CPOL0 + SPIMODE_CPHA0, 0L) == false)
+              {
+                  printf("%s\n",roboio_GetErrMsg());
+                  return -1;
+              }
+
+
+              // use half-duplex functions
+              //
+              spi_Write(0x55);
+              unsigned val1 = spi_Read();
+              printf("val1 = %d\n",val1);
+
+
+              // use full-duplex function
+              // write 0x55 and read data at same time
+              //
+              unsigned val2 = spi_Exchange(0x55);
+              printf("val2 = %d\n",val2);
+              
+              
+              // use software-simulated SPI to access RoBoard's ADC
+              //
+              int val3 = ad7918_ReadChannel(AD7918_USECHANNEL0,
+                               AD7918MODE_RANGE_2VREF, AD7918MODE_CODING_511);
+              printf("val3 = %d\n",val3);
+       
+
+              // close software-simulated SPI
+              //
+              spi_CloseSW();
+
+              return 0;
+          }
+
+      /************************************************************************/
+
+    
