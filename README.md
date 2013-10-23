@@ -8,7 +8,7 @@ the newest code base of RoBoIO. For complete packages, please download from
 		http://www.roboard.com/download_ml.htm
 
 
-### About RoBoard ###
+#### About RoBoard ####
 
 The RoBoard is an embedded board for Robotics applications that runs an x86 
 SoC (Vortex86DX) at 1GHz. It features PWM interfaces, RS-232, RS-485, TTL COM, 
@@ -20,7 +20,7 @@ application videos on RoBoard website:
 
 		http://www.roboard.com/video01.htm
 
-### About DMP Electronic Inc. ###
+#### About DMP Electronic Inc. ####
 
 Established in Taiwan since 1989, DMP Electronics Inc. has focused on kernel 
 technology of x86 embedded in hardware development and manufacture. Except the 
